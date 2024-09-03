@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carros Extraordinários</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        header.hero {
+            height: 100vh;
+            background: url('https://cdn.motor1.com/images/mgl/g4MGgN/s1/lamborghini-urus-se.jpg') no-repeat center center/cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        header.hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 2;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #ff9800;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content .btn {
+            padding: 0.75rem 2rem;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .hero-content .btn:hover {
+            background: #e68900;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .models-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .model-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 1rem;
+        }
+
+        .model-tabs button {
+            background: transparent;
+            border: none;
+            padding: 1rem 2rem;
+            margin: 0 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .model-tabs button.active {
+            color: #ff9800;
+            border-bottom: 2px solid #ff9800;
+        }
+
+        .model-content {
+            display: none;
+        }
+
+        .model-content.active {
+            display: block;
+        }
+
+        .model-content img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .model-content h3 {
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
+
+        .model-content p {
+            font-size: 1rem;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        .price-table {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+
+        .price-table th, .price-table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .price-table th {
+            background-color: #f4f4f4;
+        }
+
+        .price-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            padding: 1rem;
+            background: #333;
+            color: white;
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form input, form textarea {
+            width: calc(100% - 2rem);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            padding: 1rem;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background: #e68900;
+        }
+
+        .nav-links a.active {
+            color: #ff9800;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <nav class="navbar">
+            <div class="logo">Carros Extraordinários</div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#about">Sobre Nós</a></li>
+                <li><a href="#models">Modelos</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="hero-content">
+            <h1>Bem-vindo ao Carros Extraordinários</h1>
+            <p>Explorando o mundo dos carros com estilo e inovação.</p>
+            <a href="#models" class="btn">Descubra Modelos</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2>Sobre Nós</h2>
+        <div class="about-container">
+            <p>Bem-vindo à Carros Extraordinários, onde nossa paixão por veículos e compromisso com a excelência se encontram para oferecer a você uma experiência de compra e serviço inigualável.</p>
+            <p>Fundada em 1987, Carros Extraordinários se destaca como uma das líderes no setor automotivo, oferecendo uma ampla gama de carros novos e seminovos que atendem a todos os estilos de vida e orçamentos. Nossa missão é proporcionar aos nossos clientes não apenas um carro, mas uma experiência completa de satisfação e confiança.</p>
+            <h3>Nossa Filosofia</h3>
+            <p>Na nossa empresa, acreditamos que cada cliente merece um atendimento personalizado e uma atenção aos detalhes que faz toda a diferença. Nossa equipe de profissionais altamente treinados está dedicada a ajudá-lo a encontrar o carro perfeito, seja você um entusiasta dos motores ou alguém que busca praticidade e conforto.</p>
+            <h3>O Que Oferecemos</h3>
+            <ul>
+                <li><strong>Variedade e Qualidade:</strong> De modelos esportivos e luxuosos a SUVs e veículos familiares, nosso portfólio é cuidadosamente selecionado para garantir a mais alta qualidade e satisfação.</li>
+                <li><strong>Financiamento Flexível:</strong> Compre com tranquilidade com nossas opções de financiamento que se adaptam ao seu orçamento e necessidades.</li>
+                <li><strong>Serviço de Manutenção e Reparos:</strong> Nosso compromisso não termina na compra. Oferecemos serviços de manutenção e reparos realizados por profissionais qualificados para garantir que seu carro continue a operar com eficiência.</li>
+                <li><strong>Atendimento ao Cliente:</strong> Nossa equipe de atendimento ao cliente está sempre pronta para responder suas perguntas e resolver qualquer dúvida, garantindo uma experiência sem preocupações.</li>
+            </ul>
+            <h3>Por Que Escolher a Carros Extraordinários?</h3>
+            <p>A Carros Extraordinários é mais do que um simples concessionário; somos parceiros na sua jornada automotiva. Com uma reputação construída sobre confiança, transparência e dedicação ao cliente, buscamos superar suas expectativas em cada interação.</p>
+            <p>Explore nosso site para conhecer nossos modelos, ofertas especiais e serviços exclusivos. Se você estiver pronto para dar o próximo passo, visite-nos em nossa concessionária ou entre em contato conosco. Estamos ansiosos para ajudá-lo a encontrar o carro dos seus sonhos.</p>
+            <p><strong>Carros Extraordinários – Sua Jornada Começa Aqui.</strong></p>
+        </div>
+    </section>
+
+    <section id="models">
+        <h2>Nossos Modelos</h2>
+        <div class="models-container">
+            <div class="model-tabs">
+                <button class="active" data-model="hilux">Toyota Hilux SW4 Diamond</button>
+                <button data-model="civic">Honda Civic Type R</button>
+                <button data-model="duster">Renault Duster</button>
+            </div>
+            <div id="hilux" class="model-content active">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRka39gwcAOzkBb-RlxsAUVkowBJQgOPwg3Vg&s" alt="Toyota Hilux SW4 Diamond">
+                <h3>Toyota Hilux SW4 Diamond</h3>
+                <p>O Toyota Hilux SW4 Diamond é um SUV de luxo com motor diesel 2.8L Turbo de 204 cv, transmissão automática de 6 velocidades e tração 4x4. Ideal para aventuras e uso urbano.</p>
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Ano</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Toyota Hilux SW4 Diamond</td>
+                            <td>2024</td>
+                            <td>R$ 290.000</td>
+                        </tr>
+                        <tr>
+                            <td>Toyota Hilux SW4 Diamond</td>
+                            <td>2023</td>
+                            <td>R$ 275.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="civic" class="model-content">
+                <img src="https://s2-autoesporte.glbimg.com/jFfoltBoKicLfiYW1foVLFIV9O4=/0x0:1537x805/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_cf9d035bf26b4646b105bd958f32089d/internal_photos/bs/2022/a/p/IPnkAJS3CUlbdHlpB2Zg/honda-civic-type-r-max-versptappen.jpg" alt="Honda Civic Type R">
+                <h3>Honda Civic Type R</h3>
+                <p>O Honda Civic Type R é um hatchback esportivo com motor 2.0L VTEC Turbo de 310 cv, transmissão manual de 6 velocidades e tração dianteira. Design aerodinâmico e desempenho de alta performance.</p>
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Ano</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Honda Civic Type R</td>
+                            <td>2024</td>
+                            <td>R$ 260.000</td>
+                        </tr>
+                        <tr>
+                            <td>Honda Civic Type R</td>
+                            <td>2023</td>
+                            <td>R$ 245.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="duster" class="model-content">
+                <img src="https://cdn.motor1.com/images/mgl/xqpQY6/s1/renault-duster-2024.webp" alt="Renault Duster">
+                <h3>Renault Duster</h3>
+                <p>O Renault Duster é um SUV robusto e versátil, com motor 1.6L SCe de 120 cv ou 2.0L de 148 cv. Ideal para aventuras e uso urbano.</p>
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Ano</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Renault Duster</td>
+                            <td>2024</td>
+                            <td>R$ 120.000</td>
+                        </tr>
+                        <tr>
+                            <td>Renault Duster</td>
+                            <td>2023</td>
+                            <td>R$ 110.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2>Nossos Serviços</h2>
+        <div class="services-container">
+            <div class="service-item">
+                <h3>Manutenção</h3>
+                <p>Serviços completos de manutenção para manter seu carro em perfeito estado.</p>
+            </div>
+            <div class="service-item">
+                <h3>Consultoria</h3>
+                <p>Consultoria especializada para ajudá-lo a escolher o carro ideal.</p>
+            </div>
+            <div class="service-item">
+                <h3>Financiamento</h3>
+                <p>Soluções de financiamento personalizadas para facilitar a compra do seu carro.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Entre em Contato</h2>
+        <form id="form-contato" action="send_email.php" method="post">
+            <input type="text" name="nome" placeholder="Seu Nome" required>
+            <input type="email" name="email" placeholder="Seu E-mail" required>
+            <textarea name="mensagem" placeholder="Sua Mensagem" required></textarea>
+            <button type="submit">Enviar Mensagem</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Carros Extraordinários. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.model-tabs button');
+            const contents = document.querySelectorAll('.model-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.model).classList.add('active');
+                });
+            });
+
+            const links = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    if (scrollY >= sectionTop - 60 && scrollY < sectionTop + sectionHeight - 60) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
